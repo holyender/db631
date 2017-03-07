@@ -1,0 +1,1 @@
+[Hotel Page](http://afsaccess1.njit.edu/~jjl37/database/part3/index.php)
