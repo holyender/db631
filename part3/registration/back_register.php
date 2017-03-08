@@ -11,14 +11,6 @@ $email = $data['email'];
 
 include("../config.php");
 
-$sql = "create table if not exists CUSTOMER (CID int auto_increment, NAME varchar(16), ADDRESS varchar(16), Phone_no char(10), Email varchar( 16), constraint customerpk primary key(CID))";
-
-$result = mysqli_query($conn, $sql);
-if(!$result){
-  echo "query error: " . mysqli_error($conn);
-  exit;
-}
-
 $sql = "insert into CUSTOMER (NAME, ADDRESS, Phone_no, Email) values ('$name', '$address', '$phone_no', '$email')";
 
 $result = mysqli_query($conn, $sql);
