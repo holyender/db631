@@ -18,7 +18,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists HOTEL (HotelID int not null, Street varchar(16) default null, Country varchar(16) default null, State varchar(16) default null, Zip varchar(16) default null, constraint hotel_pk primary key(HotelID))";
+$sql = "create table if not exists HOTEL (HotelID int not null, Street varchar(32) default null, Country varchar(16) default null, State varchar(16) default null, Zip char(5) default null, constraint hotel_pk primary key(HotelID))";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -113,8 +113,11 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
 /*
+//////////////////////
 // to remove all tables for debugging
+//////////////////////
 
 // drop all foreign keys
 // BREAKFAST
@@ -347,15 +350,6 @@ if(!$result){
 }
 
 // end of droping all foreign keys
-
-// start of dropping all unique
-$sql = "alter table ROOM drop index room_hotelid_floor_roomno_unique";
-
-$result = mysqli_query($conn, $sql);
-if(!$result){
-  echo "query error: " . mysqli_error($conn);
-  exit;
-}
 
 // end of dropping all unique
 
@@ -614,12 +608,54 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
-*/
+
 // end of removing all tables for debugging
+*/
 
-
+/*
 // insert dummy data
+
+//////////////////////
+// insert dummy CUSTOMER
+//////////////////////
+
 $sql = "insert into CUSTOMER (CID, Name, Address, Phone_no, Email) values (1, 'John Losito', '323 Dr Martin Luther King Jr Blvd, Newark, NJ 07102
 ', '1234567890', 'jjl37@njit.edu')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+//////////////////////
+// insert dummy HOTEL
+//////////////////////
+
+$sql = "insert into HOTEL (HotelID, Street, Country, State, Zip) values (1, 'S Dr Martin Luther King', 'USA', 'NJ', '08401')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into HOTEL (HotelID, Street, Country, State, Zip) values (2, '777 Harrah\'s Blvd', 'USA', 'NJ', '08401')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into HOTEL (HotelID, Street, Country, State, Zip) values (3, '1 Borgata Way', 'USA', 'NJ', '08401')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+*/
+
 
 ?>

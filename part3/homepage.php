@@ -3,11 +3,9 @@
 <head>
 <style>
 table, th, td{
-
  border: 1px solid black;
  border-collapse: collapse;
  padding: 5px;
-
 }
 </style>
 </head>
@@ -25,7 +23,7 @@ if(!isset($_SESSION['cid'])){
 echo "Hello " . $_SESSION['name'];
 ?>
 <table>
-<caption></caption>
+<caption>Upcoming Reservations</caption>
 <thead>
 <tr>
 <th>Hotel ID</th>
@@ -53,6 +51,18 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 echo $result;
 ?>
+<table>
+<caption>Review Past Reservations</caption>
+<thead>
+</thead>
+<tbody>
+</tbody>
+</table>
+<br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/info/update_info.php">Update Information</a>
+<br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/reservation/make_reservation.php">Make Reservation</a>
+<br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/login/logout.php">Logout</a>
 </body>
 </html>
