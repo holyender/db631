@@ -2,7 +2,7 @@
 
 include("config.php");
 
-$sql = "create table if not exists CUSTOMER (CID int not null auto_increment, Name varchar(16) default null, Address varchar(16) default null, Phone_no char(10) default null, Email varchar(16) default null, constraint customer_pk primary key(CID))";
+$sql = "create table if not exists CUSTOMER (CID int not null auto_increment, Name varchar(16) default null, Address varchar(64) default null, Phone_no char(10) default null, Email varchar(16) default null, constraint customer_pk primary key(CID))";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -26,7 +26,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists ROOM (HotelID int not null, RoomNo int not null, Rtype varchar(16) default null, Price decimal(5,2) default null, Description text, Floor int not null, Capacity int default null, constraint room_pk primary key(HotelID, RoomNo), constraint room_hotel_fk foreign key(HotelID) references HOTEL(HotelID) on delete cascade on update cascade, constraint room_hotelid_floor_roomno_unique unique(HotelID, Floor, RoomNo))";
+$sql = "create table if not exists ROOM (HotelID int not null, RoomNo int not null, Rtype varchar(16) default null, Price decimal(5,2) default null, Description text, Floor int not null, Capacity int default null, constraint room_pk primary key(HotelID, RoomNo), constraint room_hotel_fk foreign key(HotelID) references HOTEL(HotelID) on delete cascade on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -113,7 +113,6 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
-
 /*
 // to remove all tables for debugging
 
@@ -267,7 +266,23 @@ if(!$result){
   exit;
 }
 
+$sql = "alter table RRESV_BREAKFAST drop index rresv_breakfast_breakfast_fk";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
 $sql = "alter table RRESV_BREAKFAST drop foreign key rresv_breakfast_room_reservation_fk";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "alter table RRESV_BREAKFAST drop index rresv_breakfast_room_reservation_fk";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -283,7 +298,7 @@ if(!$result){
   exit;
 }
 
-$sql = "alter table RRESV_SERVICE drop foriegn key rresv_service_room_reservation_fk";
+$sql = "alter table RRESV_SERVICE drop foreign key rresv_service_room_reservation_fk";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -599,7 +614,12 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
-
-// end of removing all tables for debugging
 */
+// end of removing all tables for debugging
+
+
+// insert dummy data
+$sql = "insert into CUSTOMER (CID, Name, Address, Phone_no, Email) values (1, 'John Losito', '323 Dr Martin Luther King Jr Blvd, Newark, NJ 07102
+', '1234567890', 'jjl37@njit.edu')";
+
 ?>

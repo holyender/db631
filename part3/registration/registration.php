@@ -10,6 +10,6 @@
 <input type="text" name="email" id="email" placeholder="Email">
 <input type="submit" value="Register">
 </form>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/index.php">Go Back to Login Screen</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/login/index.php">Go Back to Login Screen</a>
 </body>
 </html>

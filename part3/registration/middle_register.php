@@ -23,7 +23,7 @@ $response = json_decode($result, true);
 
 $response = $response['response'];
 if(strcmp($response, "ack") == 0){
-  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/index.php");
+  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/login/index.php");
 }
 
 ?>
