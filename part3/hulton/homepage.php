@@ -15,5 +15,9 @@ $result = curl_exec($ch);
 echo $result;
 ?>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/services.php">Services</a>
+<br>
+<a href="http://afsaccess.njit.edu/~jjl37/database/part3/hulton/breakfast.php">Breakfasts</a>
+<br>
+<a href="http://afsaccess.njit.edu/~jjl37/database/part3/hutlon/rooms.php">Rooms</a>
 </body>
 </html>

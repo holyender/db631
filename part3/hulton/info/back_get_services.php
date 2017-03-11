@@ -43,10 +43,10 @@ for($i=0; $i < $count_hotels; $i++){
 
 // $data format
 // (
-// (HotelID, SType, SPrice, SType, SPrice, ..., SType, SPrice), 
-// (HotelID, SType, SPrice, SType, SPrice, ..., SType, SPrice), 
+// (HotelID, (SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
+// (HotelID, (SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
 // ...
-// (HotelID, SType, SPrice, SType, SPrice, ..., SType, SPrice), 
+// (HotelID, (SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
 // )
 
 $data_json = json_encode($data);

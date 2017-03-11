@@ -59,7 +59,7 @@ for($i=0; $i < $count_hotels; $i++){
   echo "<br><br>";
 }
 ?>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add/add_service.php">Add a Service</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/service.php">Add/Remove a Service</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/homepage.php">Go Back to Homepage</a>
 </body>
