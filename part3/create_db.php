@@ -727,5 +727,21 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
+$sql = "insert into SERVICE (HotelID, SType, SPrice) values (1, 'Parking', 25.00)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into SERVICE (HotelID, SType, SPrice) values (1, 'Laundry', 10.00)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 */
 ?>

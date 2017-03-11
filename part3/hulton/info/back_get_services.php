@@ -40,7 +40,7 @@ for($i=0; $i < $count_hotels; $i++){
 
   array_push($data, $hotelid_services);
 } // end of for loop $i
-var_dump($data);
+
 // $data format
 // (
 // (HotelID, SType, SPrice, SType, SPrice, ..., SType, SPrice), 
@@ -48,5 +48,8 @@ var_dump($data);
 // ...
 // (HotelID, SType, SPrice, SType, SPrice, ..., SType, SPrice), 
 // )
+
+$data_json = json_encode($data);
+echo $data_json;
 
 ?>
