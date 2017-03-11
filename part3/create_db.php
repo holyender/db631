@@ -655,7 +655,77 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 1, 'Suite', 82.00, 'Crowne Plaza, guests enjoy a two-room suite perfectly equipped for comfort and convenience. You’ll feel relaxed and taken care of whether you’re here for an extended stay or just a night. With a private bedroom and separate living room with a sleeper-sofa, you\'ve got plenty of room for family, work or both. A flat screen TV in each room with cable and in-suite movies means that everyone can watch what they like. Other amenities include wet bar, refrigerator, microwave and Wi-Fi.® You’ll also have a coffeemaker, iron with board and hair dryer for added convenience. So make yourself right at home.', 1, 2)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 2, 'Suite', 82.00, 'Crowne Plaza, guests enjoy a two-room suite perfectly equipped for comfort and convenience. You’ll feel relaxed and taken care of whether you’re here for an extended stay or just a night. With a private bedroom and separate living room with a sleeper-sofa, you\'ve got plenty of room for family, work or both. A flat screen TV in each room with cable and in-suite movies means that everyone can watch what they like. Other amenities include wet bar, refrigerator, microwave and Wi-Fi.® You’ll also have a coffeemaker, iron with board and hair dryer for added convenience. So make yourself right at home.', 1, 2)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 3, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 4, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 5, 'Premium', 162.00, 'Our King Premium hotel room, offering deLuxe amenities, provides 199 – 239 sq ft of well-appointed space. A king-sized bed provides the perfect resting space for a tired starlet.', 1, 3)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 6, 'Suite', 82.00, 'Crowne Plaza, guests enjoy a two-room suite perfectly equipped for comfort and convenience. You’ll feel relaxed and taken care of whether you’re here for an extended stay or just a night. With a private bedroom and separate living room with a sleeper-sofa, you\'ve got plenty of room for family, work or both. A flat screen TV in each room with cable and in-suite movies means that everyone can watch what they like. Other amenities include wet bar, refrigerator, microwave and Wi-Fi.® You’ll also have a coffeemaker, iron with board and hair dryer for added convenience. So make yourself right at home.', 1, 2)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 7, 'Suite', 82.00, 'Crowne Plaza, guests enjoy a two-room suite perfectly equipped for comfort and convenience. You’ll feel relaxed and taken care of whether you’re here for an extended stay or just a night. With a private bedroom and separate living room with a sleeper-sofa, you\'ve got plenty of room for family, work or both. A flat screen TV in each room with cable and in-suite movies means that everyone can watch what they like. Other amenities include wet bar, refrigerator, microwave and Wi-Fi.® You’ll also have a coffeemaker, iron with board and hair dryer for added convenience. So make yourself right at home.', 2, 2)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 8, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 8, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 */
-
-
 ?>

@@ -41,8 +41,19 @@ echo "</form>";
   function update_info(){
   var cid = "<?php echo $_SESSION['cid']; ?>";
   var name = document.getElementById("name").value;
-  
-  //http://afsaccess1.njit.edu/~jjl37/database/part3/info/middle_update_info.php
+  var address = document.getElementById("address").value;
+  var phone_no = document.getElementById("phone_no").value;
+  var email = document.getElementById("email").value;
+
+  var data = {"cid":cid, "name":name, "address":address, "phone_no":phone_no, "email":email};
+  var data_json = JSON.stringify(data);
+
+  var xhttp = new XMLHttpRequest();
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/info/middle_update_info.php";
+
+  xhttp.open("POST", url, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(data_json);
 }
 </script>
 </body>
