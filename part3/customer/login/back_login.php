@@ -1,11 +1,11 @@
 <?php
 $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
-
+//var_dump($data_json);
 $email = $data['email'];
 $cid = (int)$data['cid'];
 
-include('../config.php');
+include('../../config.php');
 
 $sql = "select * from CUSTOMER where Email='$email' and CID=$cid";
 

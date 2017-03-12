@@ -63,6 +63,6 @@ echo $result;
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/reservation/make_reservation.php">Make Reservation</a>
 <br><br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/login/logout.php">Logout</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/logout.php">Logout</a>
 </body>
 </html>
