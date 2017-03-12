@@ -17,7 +17,7 @@ echo $result;
 // check if we are already logged in
 session_start();
 if(isset($_SESSION['cid'])){
-  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/homepage.php");
+  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php");
 }
 ?>
 <form method="post" action="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/middle_login.php" autocomplete="off">
