@@ -8,7 +8,7 @@ $address = $data['address'];
 $phone_no = $data['phone_no'];
 $email = $data['email'];
 
-include('../config.php');
+include('../../config.php');
 
 if(!empty($name)){
   $sql = "update CUSTOMER set Name='$name' where CID=$cid";

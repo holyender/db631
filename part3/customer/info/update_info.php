@@ -6,13 +6,13 @@
 <?php
 session_start();
 if(!isset($_SESSION['cid'])){
-  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/login/index.php");
+  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/index.php");
 }
 
 $data = array("cid" => $_SESSION['cid']);
 $data_json = json_encode($data);
 
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/info/middle_get_info.php";
+$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/middle_get_info.php";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -36,7 +36,7 @@ echo "<button onclick='update_info()'>Update Info</button>";
 echo "</form>";
 ?>
 <br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/homepage.php">Homepage</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php">Homepage</a>
 <script>
   function update_info(){
   var cid = "<?php echo $_SESSION['cid']; ?>";
@@ -49,7 +49,7 @@ echo "</form>";
   var data_json = JSON.stringify(data);
 
   var xhttp = new XMLHttpRequest();
-  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/info/middle_update_info.php";
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/middle_update_info.php";
 
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");

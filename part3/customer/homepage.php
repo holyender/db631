@@ -15,7 +15,7 @@ table, th, td{
   // if not then send us to the login screen
 session_start();
 if(!isset($_SESSION['cid'])){
-  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/login/index.php");
+  header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/index.php");
 }
 
 // if we are logged ing properly
@@ -59,7 +59,7 @@ echo $result;
 </tbody>
 </table>
 <br><br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/info/update_info.php">Update Information</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/update_info.php">Update Information</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/reservation/make_reservation.php">Make Reservation</a>
 <br><br>

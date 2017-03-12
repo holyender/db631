@@ -4,7 +4,7 @@ $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
 $cid = (int)$data['cid'];
 
-include('../config.php');
+include('../../config.php');
 
 $sql = "select Name, Address, Phone_no, Email from CUSTOMER where CID=$cid";
 
