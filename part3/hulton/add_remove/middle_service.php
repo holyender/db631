@@ -15,6 +15,7 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
-echo $result;
+
+header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/service.php");
 
 ?>

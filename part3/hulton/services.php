@@ -22,42 +22,43 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
-
+//echo $result;
 $data = json_decode($result);
 
 // $data format
 // (
-// (HotelID, ((SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
-// (HotelID, ((SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
-// ...
-// (HotelID, ((SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
+// (HotelID, SType, Sprice), (HotelID, SType, Sprice),
+// (HotelID, SType, Sprice), (HotelID, SType, Sprice),
+// ...,
+// (HotelID, SType, Sprice), (HotelID, SType, Sprice)
 // )
 
-$count_hotels = count($data);
-for($i=0; $i < $count_hotels; $i++){
-  $hotelid = $data[$i][0];
-  echo "<table align='center'>";
-  echo "<caption>HotelID: $hotelid</caption>";
-  echo "<thead>";
+echo "<table align='center'>";
+echo "<caption>Services</caption>";
+echo "<thead>";
+echo "<tr>";
+echo "<th>HotelID</th>";
+echo "<th>Type</th>";
+echo "<th>Price</th>";
+echo "</tr>";
+echo "<th><input type='text'></th>";
+echo "<th><input type='text'></th>";
+echo "<th><input type='text'></th>";
+echo "</thead>";
+echo "<tbody>";
+$count_services = count($data);
+for($i=0; $i < $count_services; $i++){
   echo "<tr>";
-  echo "<th>Type</th>";
-  echo "<th>Price</th>";
-  echo "</tr>";
-  echo "</thead>";
-  echo "<tbody>";
-  $count_services = count($data[$i]) - 1;
-  for($j=1; $j <= $count_services; $j++){
-    echo "<tr>";
-    $stype = $data[$i][$j][0];
-    $sprice = $data[$i][$j][1];
-    echo "<td>" . $stype . "</td>";
-    echo "<td>" . $sprice . "</td>";
-    echo "</tr>";
+  $count_fields = count($data[$i]);
+  for($j=0; $j < $count_fields; $j++){
+    echo "<td>";
+    echo $data[$i][$j];
+    echo "</td>";
   }
-  echo "</tbody>";
-  echo "</table>";
-  echo "<br><br>";
+  echo "</tr>";
 }
+echo "</tbody>";
+echo "</table>";
 
 ?>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/service.php">Add/Remove a Service</a>
