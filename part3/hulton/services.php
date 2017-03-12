@@ -24,7 +24,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 
 $data = json_decode($result);
-//var_dump($data);
+
 // $data format
 // (
 // (HotelID, ((SType, SPrice), (SType, SPrice), (...), (SType, SPrice)), 
@@ -58,6 +58,7 @@ for($i=0; $i < $count_hotels; $i++){
   echo "</table>";
   echo "<br><br>";
 }
+
 ?>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/service.php">Add/Remove a Service</a>
 <br><br>
