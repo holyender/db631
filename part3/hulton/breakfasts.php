@@ -22,26 +22,34 @@ curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
-echo $result;
+$data = json_decode($result);
 
-echo "<table>";
+echo "<table align='center'>";
 echo "<caption>Breakfasts</caption>";
 echo "<thead>";
 echo "<tr>";
 echo "<th>HotelID</th>";
 echo "<th>Type</th>";
 echo "<th>Price</th>";
-echo "<th>Description</th>";
 echo "</tr>";
 echo "<tr>";
 echo "<th><input type='text'></th>";
 echo "<th><input type='text'></th>";
 echo "<th><input type='text'></th>";
-echo "<th></th>";
 echo "</tr>";
 echo "</thead>";
 echo "<tbody>";
-// insert data
+$count_breakfasts = count($data);
+for($i=0; $i < $count_breakfasts; $i++){
+  echo "<tr>";
+  $count_fields = count($data[$i]);
+  for($j=0; $j < $count_fields; $j++){
+    echo "<td>";
+    echo $data[$i][$j];
+    echo "</td>";
+  }
+  echo "</tr>";
+}
 echo "</tbody>";
 echo "</table>";
 

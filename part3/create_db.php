@@ -751,5 +751,13 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
+$sql = "insert into BREAKFAST (HotelID, BType, BPrice, Description) values (1, 'English', 10.00, 'Traditional full English breakfast includes bacon traditionally back bacon ried, poached or scrambled eggs, fried or grilled tomatoes, fried mushrooms, fried bread or toast with butter, and sausages.')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 */
 ?>

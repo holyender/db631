@@ -21,5 +21,5 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 echo $result;
 
-//header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/room.php");
+header("Location: http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/room.php");
 ?>

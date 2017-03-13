@@ -40,6 +40,7 @@ else if(strcmp($request, "hotels") == 0){
     array_push($data, $hotel['HotelID']);
   }
 }
+
 else if(strcmp($request, "rooms") == 0){
   // push the rooms
   $sql = "select HotelID, Floor, RoomNo, Rtype, Capacity, Price from ROOM";
@@ -78,7 +79,25 @@ else if(strcmp($request, "rooms") == 0){
   }
 
   array_push($data, $discounts);
-}
+} // end of rooms
+
+else if(strcmp($request, "breakfasts") == 0){
+  $sql = "select HotelID, BType, BPrice from BREAKFAST";
+
+  $breakfast_result = mysqli_query($conn, $sql);
+  if(!$breakfast_result){
+    echo "query error: " . mysqli_error($conn);
+    exit;
+  }
+
+  $count_breakfasts = mysqli_num_rows($breakfast_result);
+
+  for($i=0; $i < $count_breakfasts; $i++){
+    $breakfast = mysqli_fetch_row($breakfast_result);
+    array_push($data, $breakfast);
+  }
+
+} // end of breakfasts
 
 $data_json = json_encode($data);
 echo $data_json;
