@@ -18,6 +18,6 @@ echo $result;
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/breakfasts.php">Breakfasts</a>
 <br><br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hutlon/rooms.php">Rooms</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/rooms.php">Rooms</a>
 </body>
 </html>

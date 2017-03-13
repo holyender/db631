@@ -743,5 +743,13 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
+$sql = "insert into DISCOUNTED_ROOM (HotelID, RoomNo, Discount, StartDate, EndDate) values (1, 1, 15.00, '2017-03-13', '2017-03-24')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 */
 ?>
