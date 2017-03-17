@@ -2,13 +2,13 @@
 $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
 
-$cid = (int)$data['cid'];
-$name = $data['name'];
-$address = $data['address'];
-$phone_no = $data['phone_no'];
-$email = $data['email'];
-
 include('../../config.php');
+
+$cid = (int)$data['cid'];
+$name = mysqli_real_escape_string($conn, $data['name']);
+$address = mysqli_real_escape_string($conn, $data['address']);
+$phone_no = mysqli_real_escape_string($conn, $data['phone_no']);
+$email = mysqli_real_escape_string($conn, $data['email']);
 
 if(!empty($name)){
   $sql = "update CUSTOMER set Name='$name' where CID=$cid";

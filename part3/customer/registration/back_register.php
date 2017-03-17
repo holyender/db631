@@ -2,14 +2,14 @@
 
 $data_json = file_get_contents("php://input");
 //var_dump($data_json);
-
 $data = json_decode($data_json, true);
-$name = $data['name'];
-$address = $data['address'];
-$phone_no = $data['phone_no'];
-$email = $data['email'];
 
 include("../config.php");
+
+$name = mysqli_real_escape_string($conn, $data['name']);
+$address = mysqli_real_escape_string($conn, $data['address']);
+$phone_no = mysqli_real_escape_string($conn, $data['phone_no']);
+$email = mysqli_real_escape_string($conn, $data['email']);
 
 $sql = "insert into CUSTOMER (NAME, ADDRESS, Phone_no, Email) values ('$name', '$address', '$phone_no', '$email')";
 
