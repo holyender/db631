@@ -2,15 +2,15 @@
 $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
 
+include('../../config.php');
+
 $hotelid = (int)$data['hotelid'];
 $roomno = (int)$data['roomno'];
 $discount = (float)$data['discount'];
-$startdate = $data['startdate'];
-$enddate = $data['enddate'];
+$startdate = mysqli_real_escape_string($conn, $data['startdate']);
+$enddate = mysqli_real_escape_string($conn, $data['enddate']);
 
 $request = $data['request'];
-
-include('../../config.php');
 
 if(strcmp($request, "add") == 0){
 
