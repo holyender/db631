@@ -105,6 +105,8 @@ echo "</table>";
 <br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/room.php">Add/Remove a Room</a>
 <br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/update/room.php">Update a Room</a>
+<br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/discount.php">Add/Remove a Discount</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/homepage.php">Go Back to Homepage</a>
