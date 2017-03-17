@@ -114,6 +114,14 @@ if(!$result){
   exit;
 }
 
+$sql = "create table if not exists HOTEL_PHONES (HotelID int not null, PhoneNo char(10) not null, constraint hotel_phone_pk primary key(HotelID, PhoneNo), constraint hotel_phones_fk foreign key(HotelID) references HOTEL(HotelID))";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
 /*
 //////////////////////
 // to remove all tables for debugging

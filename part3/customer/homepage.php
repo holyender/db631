@@ -41,8 +41,8 @@ echo "Hello " . $_SESSION['name'];
 $data = array("cid" => $_SESSION['cid']);
 $data_json = json_encode($data);
 
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/reservation/middle_get_reservations.php";
 $ch = curl_init();
+$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_get_reservations.php";
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -51,17 +51,10 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 echo $result;
 ?>
-<table>
-<caption>Review Past Reservations</caption>
-<thead>
-</thead>
-<tbody>
-</tbody>
-</table>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/update_info.php">Update Information</a>
 <br><br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/reservation/make_reservation.php">Make Reservation</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/make_reservation.php">Make Reservation</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/logout.php">Logout</a>
 </body>
