@@ -2,17 +2,17 @@
 $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
 
+include('../../config.php');
+
 $hotelid = (int)$data['hotelid'];
 $roomno = (int)$data['roomno'];
-$rtype = $data['rtype'];
+$rtype = mysqli_real_escape_string($conn, $data['rtype']);
 $price = (float)$data['price'];
-$description = $data['description'];
+$description = mysqli_real_escape_string($conn, $data['description']);
 $floor = (int)$data['floor'];
 $capacity = (int)$data['capacity'];
 
 $request = $data['request'];
-
-include('../../config.php');
 
 if(strcmp($request, "add") == 0){
   $sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values ($hotelid, $roomno, '$rtype', $price, '$description', $floor, $capacity)";

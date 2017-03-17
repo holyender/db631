@@ -8,7 +8,7 @@ $floor = $_POST['floor'];
 $capacity = $_POST['capacity'];
 $request = $_POST['request'];
 
-$data = array("hotelid" => $hotelid, "roomno" => $roomno, "rtype" => $rtype, "price" => $price, "description" => $description, "floor" => $floor, "capactiry" => $capacity, "request" => $request);
+$data = array("hotelid" => $hotelid, "roomno" => $roomno, "rtype" => $rtype, "price" => $price, "description" => $description, "floor" => $floor, "capacity" => $capacity, "request" => $request);
 $data_json = json_encode($data);
 
 $ch = curl_init();
