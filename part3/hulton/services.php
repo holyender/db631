@@ -63,6 +63,8 @@ echo "</table>";
 ?>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/service.php">Add/Remove a Service</a>
 <br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/update/service.php">Update a Service</a>
+<br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/homepage.php">Go Back to Homepage</a>
 </body>
 </html>
