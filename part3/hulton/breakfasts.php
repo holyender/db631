@@ -57,7 +57,7 @@ echo "</table>";
 <br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/add_remove/breakfast.php">Add/Remove Breakfast</a>
 <br><br>
-<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/update/breakfast.php">Update Breakfast</a>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/update/breakfast.php">Update a Breakfast</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/homepage.php">Go Back to Homepage</a>
 </body>

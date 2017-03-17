@@ -9,7 +9,7 @@ From
 <br>
 <input type="text" name="old_btype" placeholder="Type" required>
 <br>
-<input type="text" name="old_price" placeholder="Price">
+<input type="text" name="old_bprice" placeholder="Price">
 <br>
 <textarea name="old_description" cols="25" rows="10" placeholder="Description"></textarea>
 <br>
@@ -19,7 +19,7 @@ To
 <br>
 <input type="text" name="new_btype" placeholder="Type" required>
 <br>
-<input type="text" name="new_price" placeholder="Price">
+<input type="text" name="new_bprice" placeholder="Price">
 <br>
 <textarea name="new_description" cols="25" rows="10" placeholder="Description"></textarea>
 <br><br>
