@@ -34,7 +34,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists DISCOUNTED_ROOM (HotelID int not null, RoomNo int not null, Discount decimal(5,2) default null, StartDate date default null, EndDate date default null, constraint discounted_room_pk primary key(HotelID, RoomNo), constraint discounted_room_room_fk foreign key(HotelID, RoomNo) references ROOM(HotelID, RoomNo) on delete cascade on update cascade)";
+$sql = "create table if not exists DISCOUNTED_ROOM (HotelID int not null, RoomNo int not null, Discount decimal(4,4) default null, StartDate date default null, EndDate date default null, constraint discounted_room_pk primary key(HotelID, RoomNo), constraint discounted_room_room_fk foreign key(HotelID, RoomNo) references ROOM(HotelID, RoomNo) on delete cascade on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -114,7 +114,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists HOTEL_PHONES (HotelID int not null, PhoneNo char(10) not null, constraint hotel_phone_pk primary key(HotelID, PhoneNo), constraint hotel_phones_fk foreign key(HotelID) references HOTEL(HotelID))";
+$sql = "create table if not exists HOTEL_PHONES (HotelID int not null, PhoneNo char(10) not null, constraint hotel_phone_pk primary key(HotelID, PhoneNo), constraint hotel_phones_hotel_fk foreign key(HotelID) references HOTEL(HotelID))";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -134,6 +134,7 @@ if(!$result){
 // CUSTOMER
 // DISCOUNTED_ROOM
 // HOTEL
+// HOTEL_PHONES
 // RESERVATION
 // ROOM
 // ROOM_RESERVATION
@@ -196,6 +197,14 @@ if(!$result){
 }
 
 // no foreign key for HOTEL
+
+$sql = "alter table HOTEL_PHONES drop foreign key hotel_phones_hotel_fk";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 
 $sql = "alter table RESERVATION drop foreign key reservation_customer_fk";
 
@@ -359,8 +368,6 @@ if(!$result){
 
 // end of droping all foreign keys
 
-// end of dropping all unique
-
 // drop all primary keys
 // BREAKFAST
 // BREAKFAST_REIVEW
@@ -368,6 +375,7 @@ if(!$result){
 // CUSTOMER
 // DISCOUNTED_ROOM
 // HOTEL
+// HOTEL_PHONES
 // RESERVATION
 // ROOM
 // ROOM_RESERVATION
@@ -418,6 +426,14 @@ if(!$result){
 }
 
 $sql = "alter table HOTEL drop primary key";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "alter table HOTEL_PHONES drop primary key";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -496,6 +512,7 @@ if(!$result){
 // CUSTOMER
 // DISCOUNTED_ROOM
 // HOTEL
+// HOTEL_PHONES
 // RESERVATION
 // ROOM
 // ROOM_RESERVATION
@@ -546,6 +563,14 @@ if(!$result){
 }
 
 $sql = "drop table if exists HOTEL cascade";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
+
+$sql = "drop table if exists HOTEL_PHONES cascade";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -728,7 +753,7 @@ if(!$result){
   exit;
 }
 
-$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 8, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
+$sql = "insert into ROOM (HotelID, RoomNo, Rtype, Price, Description, Floor, Capacity) values (1, 9, 'Deluxe', 141.00, 'A stylish retreat for starlets and Oscar hopefuls, our Queen Deluxe hotel room features 176-208 sq. ft. of expertly appointed accommodations and is smartly equipped with a queen-sized bed and all our luxurious amenities to create an intimate, elegant hideaway.', 2, 4)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -752,7 +777,7 @@ if(!$result){
   exit;
 }
 
-$sql = "insert into DISCOUNTED_ROOM (HotelID, RoomNo, Discount, StartDate, EndDate) values (1, 1, 15.00, '2017-03-13', '2017-03-24')";
+$sql = "insert into DISCOUNTED_ROOM (HotelID, RoomNo, Discount, StartDate, EndDate) values (1, 1, .1500, '2017-03-13', '2017-03-24')";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){

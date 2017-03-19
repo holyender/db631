@@ -66,6 +66,8 @@ echo "Hello " . $_SESSION['name'];
 <th>Room No</th>
 <th>Price</th>
 <th>Capacity</th>
+<th>Discount</th>
+<th>Total</th>
 </thead>
 <tbody>
 </tbody>
@@ -287,6 +289,7 @@ function search_rooms(){
 	var roomno = data[i][1];
 	var price = data[i][2];
 	var capacity = data[i][3];
+        var discount = data[i][4];
 
 	var row = rtable.insertRow(i+1);
 	var cell0 = row.insertCell(0);
@@ -294,12 +297,16 @@ function search_rooms(){
 	var cell2 = row.insertCell(2);
 	var cell3 = row.insertCell(3);
 	var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
 
 	cell0.innerHTML = "<input type='checkbox'>";
 	cell1.innerHTML = hotelid;
 	cell2.innerHTML = roomno;
 	cell3.innerHTML = price;
 	cell4.innerHTML = capacity;
+        cell5.innerHTML = (discount * 100.00).toFixed(2);
+        cell6.innerHTML = (price - (price * discount)).toFixed(2);
 
       }
 
@@ -310,6 +317,7 @@ function search_rooms(){
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);
+//  document.write(xhttp.responseText);
   
 }
 
