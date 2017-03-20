@@ -3,7 +3,7 @@
   // returns an array of distinct breakfasts or services
   // for every hotel, meaning this file will return
   // every type of distinct breakfasts and services
-  // that hotels have. to use this file send it an
+  // that every hotels has. to use this file send it an
   // associative array with the info you want
   // e.g. ("info" => "breakfasts")
 

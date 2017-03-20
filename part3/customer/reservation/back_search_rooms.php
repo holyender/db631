@@ -9,7 +9,7 @@ $hotelid = (int)$data['hotelid'];
 $rtype = mysqli_real_escape_string($conn, $data['rtype']);
 $checkindate = $data['checkindate'];
 
-$sql = "select HotelID, RoomNo, Price, Capacity from ROOM where HotelID=$hotelid and Rtype like '%$rtype%'";
+$sql = "select HotelID, RoomNo, Rtype, Price, Capacity from ROOM where HotelID=$hotelid and Rtype like '%$rtype%'";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){

@@ -792,5 +792,13 @@ if(!$result){
   echo "query error: " . mysqli_error($conn);
   exit;
 }
+
+$sql = "insert into BREAKFAST (HotelID, BType, BPrice, Description) values (1, 'French', 7.00, 'Consists of a cup of coffee, sometimes accompanied by a glass of orange or grapefruit juice.')";
+
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 */
 ?>

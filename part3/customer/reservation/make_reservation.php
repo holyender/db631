@@ -24,6 +24,7 @@ if(!isset($_SESSION['cid'])){
 echo "Hello " . $_SESSION['name'];
 ?>
 <br><br>
+Search for Hotels
 <form autocomplete="off">
 <input type="text" name="country" id="country" placeholder="Country">
 <br>
@@ -49,6 +50,7 @@ echo "Hello " . $_SESSION['name'];
 </tbody>
 </table>
 <br>
+Search for Rooms
 <form autocomplete="off">
 <input type="text" name="hotelid" id="hotelid" placeholder="Hotel ID">
 <br>
@@ -61,9 +63,9 @@ echo "Hello " . $_SESSION['name'];
 <table id="rooms_table" align="center">
 <caption>Rooms</caption>
 <thead>
-<th></th>
 <th>Hotel ID</th>
 <th>Room No</th>
+<th>Type</th>
 <th>Price</th>
 <th>Capacity</th>
 <th>Discount</th>
@@ -72,22 +74,33 @@ echo "Hello " . $_SESSION['name'];
 <tbody>
 </tbody>
 </table>
-<div style='text-align:center'>
-<button onclick="add_to_reservation()">Reserve</button>
-</div>
 <br>
+Reserve Room
+<form autocomplete="off">
+<input type="text" name="resv_hotelid" id="resv_hotelid" placeholder="Hotel ID">
+<br>
+<input type="text" name="resv_roomno" id="resv_roomno" placeholder="Room No">
+<br>
+<input type="text" name="resv_checkindate" id="resv_checkindate" placeholder="Check In Date YYYY-MM-DD">
+<br>
+<input type="text" name="resv_checkoutdate" id="resv_checkoutdate" placeholder="Check Out Date YYYY-MM-DD">
+<br>
+<input type="button" onclick="reserve_room()" value="Reserve">
+</form>
 <table align="center" id="room_reservations_table">
 <caption>Room Reservations</caption>
 <thead>
 <tr>
-<th></th>
-<th colspan="5"></th>
+<th colspan="2"></th> <!-- Check In / Check Out -->
+<th></th> <!-- Hotel ID -->
+<th colspan="6"></th>
 <th id="breakfast_th">Breakfast</th>
 <th id="service_th">Service</th>
 </tr>
 <tr>
-<th></th>
-<th colspan="5">Room</th>
+<th colspan="2">Date</th> <!-- Check In / Check Out-->
+<th>Hotel</th> <!-- Hotel ID -->
+<th colspan="6">Room</th>
 <?php
 $data = array("info" => "breakfasts");
 $data_json = json_encode($data);
@@ -147,10 +160,13 @@ for($i=0; $i < $count_services; $i++){
 ?>
 </tr>
 <tr>
-<th>Hotel ID</th>
+<th>Check In</th>
+<th>Check Out</th>
+<th>ID</th>
 <th>No</th>
 <th>Type</th>
 <th>Price</th>
+<th>Capacity</th>
 <th>Discount</th>
 <th>Total</th>
 <script>
@@ -159,35 +175,43 @@ var count_services = document.getElementById("service_th").colSpan;
 
 var rrtable = document.getElementById("room_reservations_table");
 
-var j = 6;
-var k = 2;
+var j = 9; // cell number 
+var k = 3;
 for(var i=0; i < count_breakfasts; i++){
   var cell_quant = rrtable.rows[2].insertCell(j);
   var cell_price = rrtable.rows[2].insertCell(j+1);
+  var cell_total = rrtable.rows[2].insertCell(j+2);
 
   cell_quant.outerHTML = "<th>Quantity</th>";
   cell_price.outerHTML = "<th>Price</th>";
+  cell_total.outerHTML = "<th>Total</th>";
 
-  j += 2;
+  j += 3;
 
   var breakfast = rrtable.rows[1].cells[k].innerHTML;
   increase_colspan(breakfast.replace(/'/g, "\\'"));
+  increase_colspan(breakfast.replace(/'/g, "\\'"));
   k++;
+  increase_colspan("breakfast_th");
   increase_colspan("breakfast_th");
 }
 
 for(var i=0; i < count_services; i++){
 	var cell_quant = rrtable.rows[2].insertCell(j);
 	var cell_price = rrtable.rows[2].insertCell(j+1);
+        var cell_total = rrtable.rows[2].insertCell(j+2);
 	
 	cell_quant.outerHTML = "<th>Quantity</th>";
   	cell_price.outerHTML = "<th>Price</th>";
+        cell_total.outerHTML = "<th>Total</th>";
 
-	j += 2;
+	j += 3;
 
 	var service = rrtable.rows[1].cells[k].innerHTML;
 	increase_colspan(service.replace(/'/g, "\\'"));
+	increase_colspan(service.replace(/'/g, "\\'"));
 	k++;
+	increase_colspan("service_th");
 	increase_colspan("service_th");
 }
 
@@ -197,9 +221,6 @@ for(var i=0; i < count_services; i++){
 <tbody>
 </tbody>
 </table>
-<div style='text-align:center'>
-<button onclick="finalize_reservation()">Submit</button>
-</div>
 <br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php">Homepage</a>
 
@@ -287,9 +308,13 @@ function search_rooms(){
 	var room = data[i];
 	var hotelid = data[i][0];
 	var roomno = data[i][1];
-	var price = data[i][2];
-	var capacity = data[i][3];
-        var discount = data[i][4];
+        var rtype = data[i][2];
+	var price = data[i][3];
+	var capacity = data[i][4];
+	var discount = data[i][5];
+	if(!discount){
+	  discount = 0.0000;
+	}
 
 	var row = rtable.insertRow(i+1);
 	var cell0 = row.insertCell(0);
@@ -300,12 +325,12 @@ function search_rooms(){
         var cell5 = row.insertCell(5);
         var cell6 = row.insertCell(6);
 
-	cell0.innerHTML = "<input type='checkbox'>";
-	cell1.innerHTML = hotelid;
-	cell2.innerHTML = roomno;
+	cell0.innerHTML = hotelid;
+	cell1.innerHTML = roomno;
+        cell2.innerHTML = rtype;
 	cell3.innerHTML = price;
 	cell4.innerHTML = capacity;
-        cell5.innerHTML = (discount * 100.00).toFixed(2);
+        cell5.innerHTML = discount;
         cell6.innerHTML = (price - (price * discount)).toFixed(2);
 
       }
@@ -321,81 +346,24 @@ function search_rooms(){
   
 }
 
-function add_to_reservation(){
-  var rtable = document.getElementById("rooms_table");
-  var rtable_rows = rtable.getElementsByTagName('tr');
-  var count_rtable_rows = rtable_rows.length;
-  
-  var checks = [];
+function reserve_room(){
+  var hotelid = document.getElementById("resv_hotelid").value;
+  var roomno = document.getElementById("resv_roomno").value;
+  var checkindate = document.getElementById("resv_checkindate").value;
+  var checkoutdate = document.getElementById("resv_checkoutdate").value;
 
-  // figure out which 
-  for(var i=1; i < count_rtable_rows; i++){
-    var is_checked = rtable_rows[i].cells[0].getElementsByTagName("input")[0].checked;
-    checks.push(is_checked);
-  }
-
-  var data = [];
-
-  // for all of the checkboxes checked in the rooms table
-  // collect the hotel id and room no from table
-  for(var i=0; i < checks.length; i++){
-    if(checks[i]){
-      var row = [];
-
-      var hotelid = rtable_rows[i+1].cells[1].innerHTML;
-      var roomno = rtable_rows[i+1].cells[2].innerHTML;
-    
-      row.push(hotelid);
-      row.push(roomno);
-
-      data.push(row);
-    }
-  }
-
-  // data array format
-  // ((hotelid, roomno), (hotelid, roomno), ..., (hotelid, roomno))
-  // an array of arrays consisting of each hotel id and room no
+  var data = {"hotelid":hotelid, "roomno":roomno, "checkindate":checkindate, "checkoutdate":checkoutdate};
   var data_json = JSON.stringify(data);
 
-  // figure out whether the collected data, meaning the hotel id and room no,
-  // have which types of breakfasts and services it has
   var xhttp = new XMLHttpRequest();
-  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_get_breakfasts_services.php";
-  /*
-  xhttp.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      var data = JSON.parse(this.responseText);
-      
-      var rrtable = document.getElementById("room_reservations_table");
-      var rrtable_rows = rrtable.getElementsByTagName('tr');
-      
-      for(var i=0; i < data.length; i++){
-	var count_rrtable_rows = rrtable_rows.length;
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_reserve_room.php";
 
-	var hotelid = data[i][0];
-	var roomno = data[i][1];
-
-	var row = rrtable.insertRow(count_rrtable_rows);
-	var cell0 = row.insertCell(0);
-	var cell1 = row.insertCell(1);
-
-	cell0.innerHTML = hotelid;
-	cell1.innerHTML = roomno;
-
-	//	var breakfasts = data[i][2];
-	
-	//	var services = data[i][3];
-
-      }
-      
-    }
-  };
-  */
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);
   document.write(xhttp.responseText);
 }
+
 </script>
 </body>
 </html>
