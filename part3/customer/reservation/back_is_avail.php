@@ -17,6 +17,13 @@ $roomno = (int)$data['roomno'];
 $our_checkindate = $data['checkindate'];
 $our_checkoutdate = $data['checkoutdate'];
 
+if(empty($our_checkindate) or empty($our_checkoutdate)){
+  $data = array("response" => "invalid dates");
+  $data_json = json_encode($data);
+  echo $data_json;
+  exit;
+}
+
 $sql = "select CheckInDate, CheckOutDate from ROOM_RESERVATION where HotelID=$hotelid and RoomNo=$roomno";
 
 $result = mysqli_query($conn, $sql);

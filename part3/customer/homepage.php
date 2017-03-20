@@ -22,35 +22,6 @@ if(!isset($_SESSION['cid'])){
 // then welcome us
 echo "Hello " . $_SESSION['name'];
 ?>
-<table>
-<caption>Upcoming Reservations</caption>
-<thead>
-<tr>
-<th>Hotel ID</th>
-<th>Floor</th>
-<th>Room No</th>
-<th>Room Type</th>
-<th>Check In Date</th>
-<th>Check Out Date</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-<?php
-$data = array("cid" => $_SESSION['cid']);
-$data_json = json_encode($data);
-
-$ch = curl_init();
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_get_reservations.php";
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$result = curl_exec($ch);
-echo $result;
-?>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/update_info.php">Update Information</a>
 <br><br>

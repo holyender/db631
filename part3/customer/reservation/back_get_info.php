@@ -15,7 +15,7 @@ $request = $data['info'];
 include('../../config.php');
 
 if(strcmp($request, "breakfasts") == 0){
-  $sql = "select distinct BType from BREAKFAST";
+  $sql = "select distinct BType from BREAKFAST order by BType asc";
 
   $result = mysqli_query($conn, $sql);
   if(!$result){
@@ -35,7 +35,7 @@ if(strcmp($request, "breakfasts") == 0){
   echo $data_json;
 }
 else if(strcmp($request, "services") == 0){
-  $sql = "select distinct SType from SERVICE";
+  $sql = "select distinct SType from SERVICE order by SType asc";
 
   $result = mysqli_query($conn, $sql);
   if(!$result){

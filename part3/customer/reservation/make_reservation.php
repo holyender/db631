@@ -63,6 +63,7 @@ Search for Rooms
 <table id="rooms_table" align="center">
 <caption>Rooms</caption>
 <thead>
+<tr>
 <th>Hotel ID</th>
 <th>Room No</th>
 <th>Type</th>
@@ -70,6 +71,7 @@ Search for Rooms
 <th>Capacity</th>
 <th>Discount</th>
 <th>Total</th>
+</tr>
 </thead>
 <tbody>
 </tbody>
@@ -87,6 +89,7 @@ Reserve Room
 <br>
 <input type="button" onclick="reserve_room()" value="Reserve">
 </form>
+<span id="response"></span>
 <table align="center" id="room_reservations_table">
 <caption>Room Reservations</caption>
 <thead>
@@ -221,6 +224,9 @@ for(var i=0; i < count_services; i++){
 <tbody>
 </tbody>
 </table>
+<div style="text-align: center">
+<button onclick="finalize_reservation()">Finalize</button>
+</div>
 <br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php">Homepage</a>
 
@@ -358,12 +364,189 @@ function reserve_room(){
   var xhttp = new XMLHttpRequest();
   var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_reserve_room.php";
 
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      var data = JSON.parse(this.responseText);
+      
+      if(data.hasOwnProperty("response")){
+	document.getElementById("response").innerHTML = data["response"];
+	return;
+      }
+      else{
+	document.getElementById("response").innerHTML = "";
+      }
+      
+      // data format
+      // (
+      // hotelid, roomno, checkindate, checkoutdate,
+      // rtype, price, capacity, discount, (breakfasts), (services)
+      // )
+      // (breakfasts) -> (btype, price, btype, price, ..., btype, price)
+      // (services) -> (stype, price, stype, price, ..., stype, price)
+
+      var rrtable = document.getElementById("room_reservations_table");
+      var rrtable_rows = rrtable.getElementsByTagName("tr");
+      var count_rrtable_rows = rrtable_rows.length;
+      
+      var row = rrtable.insertRow(count_rrtable_rows);
+      var cell0 = row.insertCell(0);
+      var cell1 = row.insertCell(1);
+      var cell2 = row.insertCell(2);
+      var cell3 = row.insertCell(3);
+      var cell4 = row.insertCell(4);
+      var cell5 = row.insertCell(5);
+      var cell6 = row.insertCell(6);
+      var cell7 = row.insertCell(7);
+      var cell8 = row.insertCell(8);
+
+      cell0.innerHTML = data["checkindate"];
+      cell1.innerHTML = data["checkoutdate"];
+      cell2.innerHTML = data["hotelid"];
+      cell3.innerHTML = data["roomno"];
+      cell4.innerHTML = data["0"]; // rtype
+      cell5.innerHTML = data["1"]; // rprice
+      cell6.innerHTML = data["2"]; // capacity
+      cell7.innerHTML = data["3"]; // discount
+      cell8.innerHTML = data["1"] - (data["1"] * data["3"]);
+      // data["4"] breakfasts
+      // data["5"] services
+
+      var count_cell = 9;
+      // insert breakfasts
+      for(var i=0; i < data["4"].length; i+=2){
+	var cell_quant = row.insertCell(count_cell);
+	var cell_price = row.insertCell(count_cell+1);
+	var cell_total = row.insertCell(count_cell+2);
+
+	if(data["4"][i+1]){
+	  cell_quant.outerHTML = "<td><input type=\"number\" min=\"0\" value=\"0\" onclick=\"calc_total()\"></td>"; 
+	  cell_price.innerHTML = data["4"][i+1];
+	  cell_total.innerHTML = "0.00";
+	}
+	else{
+	  cell_quant.outerHTML = "<td><input type=\"number\" value=\"0\" min=\"0\" max=\"0\"></td>";
+	  cell_price.innerHTML = "0.00";
+	  cell_total.innerHTML = "0.00";
+	}
+
+	count_cell+=3;
+      }
+
+      // insert services
+      for(var i=0; i < data["5"].length; i+=2){
+	var cell_quant = row.insertCell(count_cell);
+	var cell_price = row.insertCell(count_cell+1);
+	var cell_total = row.insertCell(count_cell+2);
+
+	if(data["5"][i+1]){
+	  cell_quant.outerHTML = "<td><input type=\"number\" min=\"0\" value=\"0\" onclick=\"calc_total()\"></td>"; 
+	  cell_price.innerHTML = data["5"][i+1];
+	  cell_total.innerHTML = "0.00";
+	}
+	else{
+	  cell_quant.outerHTML = "<td><input type=\"number\" value=\"0\" min=\"0\" max=\"0\"></td>";
+	  cell_price.innerHTML = "0.00";
+	  cell_total.innerHTML = "0.00";
+	}
+	
+	count_cell+=3;
+      }
+
+    }
+  };
+
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);
+  //  document.write(xhttp.responseText);
+}
+
+function finalize_reservation(){
+  var date_cells = 2;
+  var hotel_cells = 1;
+  var room_cells = 6;
+  var breakfast_cells = document.getElementById("breakfast_th").colSpan;
+  var service_cells = document.getElementById("service_th").colSpan;
+
+  // number of cells needed to be collected
+  var cells = date_cells + hotel_cells + room_cells + breakfast_cells + service_cells;
+
+  var rrtable = document.getElementById("room_reservations_table");
+  var rrtable_rows = rrtable.getElementsByTagName("tr");
+  var count_rrtable_rows = rrtable_rows.length;
+  
+  var data = [];
+  for(var i=3; i < count_rrtable_rows; i++){
+    var row = [];
+
+    for(var j=0; j < cells; j++){
+      var cell;
+
+      if(j < 9){
+	cell = rrtable_rows[i].cells[j].innerHTML;
+	row.push(cell);
+      }
+      else{
+	cell = rrtable_rows[i].cells[j].getElementsByTagName("input")[0].value;
+	document.write(cell);
+	row.push(cell);
+	j++;
+
+	cell = rrtable_rows[i].cells[j].innerHTML;
+	row.push(cell);
+	j++;
+
+	cell = rrtable_rows[i].cells[j].innerHTML;
+	row.push(cell);
+      }
+       
+    }
+
+    data.push(row);
+  }
+
+  var data_json = JSON.stringify(data);
+  
+  var xhttp = new XMLHttpRequest();
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_finalize_reservation.php";
+
+  xhttp.open("POST", url, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(data_json);  
   document.write(xhttp.responseText);
 }
 
+function calc_total(){
+  var rrtable = document.getElementById("room_reservations_table");
+  var rrtable_rows = rrtable.getElementsByTagName("tr");
+  var count_rrtable_rows = rrtable_rows.length;
+  var count_breakfasts = document.getElementById("breakfast_th").colSpan;
+  var count_services = document.getElementById("service_th").colSpan;
+
+  for(var i=3; i < count_rrtable_rows; i++){
+
+    // calculate totals for breakfasts
+    for(var j=0; j < count_breakfasts; j+=3){
+      var quantity = rrtable.rows[i].cells[9+j].getElementsByTagName("input")[0].value;
+      var price = rrtable.rows[i].cells[9+j+1].innerHTML;
+      var total = parseInt(quantity) * parseFloat(price);
+
+      rrtable.rows[i].cells[9+j+2].innerHTML = total;
+
+    }
+
+    // calculate totals for services
+    for(var k=0; k < count_services; k+=3){
+      var quantity = rrtable.rows[i].cells[9+count_breakfasts+k].getElementsByTagName("input")[0].value;
+      var price = rrtable.rows[i].cells[9+count_breakfasts+k+1].innerHTML;
+      var total = parseInt(quantity) * parseFloat(price);
+
+      rrtable.rows[i].cells[9+count_breakfasts+k+2].innerHTML = total;
+    }
+
+  }
+
+}
 </script>
 </body>
 </html>
