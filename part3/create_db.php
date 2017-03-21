@@ -82,7 +82,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists RESERVATION (InvoiceNo int not null, CID int not null, Cnumber int not null, Rdate date default null, constraint reservation_pk primary key(InvoiceNo), constraint reservation_customer_fk foreign key(CID) references CUSTOMER(CID) on delete cascade on update cascade, constraint reservation_credit_card_fk foreign key(Cnumber) references CREDIT_CARD(CNumber) on delete cascade on update cascade)";
+$sql = "create table if not exists RESERVATION (InvoiceNo int not null auto_increment, CID int not null, Cnumber int not null, Rdate date default null, constraint reservation_pk primary key(InvoiceNo), constraint reservation_customer_fk foreign key(CID) references CUSTOMER(CID) on delete cascade on update cascade, constraint reservation_credit_card_fk foreign key(Cnumber) references CREDIT_CARD(CNumber) on delete cascade on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -441,7 +441,7 @@ if(!$result){
   exit;
 }
 
-$sql = "alter table RESERVATION drop primary key";
+$sql = "alter table RESERVATION drop primary key, change InvoiceNo InvoiceNo int ";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
