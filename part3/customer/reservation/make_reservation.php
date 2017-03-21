@@ -224,9 +224,27 @@ for(var i=0; i < count_services; i++){
 <tbody>
 </tbody>
 </table>
-<div style="text-align: center">
-<button onclick="finalize_reservation()">Finalize</button>
-</div>
+<br>
+<form autocomplete="off">
+<input type="text" id="cnumber" placeholder="Credit Card Number">
+<br>
+<select id="ctype">
+<option value="Visa">Visa</option>
+<option value="Master">Master</option>
+<option value="Discover">Discover</option>
+<option value="Amex">Amex</option>
+</select>
+<br>
+<input type="text" id="baddress" placeholder="Billing Address">
+<br>
+<input type="text" id="code" placeholder="Code">
+<br>
+<input type="text" id="expdate" placeholder="Expiration Date YYYY-MM-DD">
+<br>
+<input type="text" id="name" placeholder="Name">
+<br><br>
+<input type="button" onclick="finalize_reservation()" value="Finalize">
+</form>
 <br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php">Homepage</a>
 
@@ -476,31 +494,83 @@ function finalize_reservation(){
   var count_rrtable_rows = rrtable_rows.length;
   
   var data = [];
+
+  // get cid
+  var cid = "<?php echo $_SESSION['cid']; ?>";
+  data.push(cid);
+
+  // get credit card info
+  var cnumber = document.getElementById("cnumber").value;
+  var ctype = document.getElementById("ctype").value;
+  var baddress = document.getElementById("baddress").value;
+  var code = document.getElementById("code").value;
+  var expdate = document.getElementById("expdate").value;
+  var name = document.getElementById("name").value;
+
+  var credit_card = [];
+  credit_card.push(cnumber);
+  credit_card.push(ctype);
+  credit_card.push(baddress);
+  credit_card.push(code);
+  credit_card.push(expdate);
+  credit_card.push(name);
+
+  data.push(credit_card);
+
   for(var i=3; i < count_rrtable_rows; i++){
-    var row = [];
+    var row = []; // a table row
 
-    for(var j=0; j < cells; j++){
-      var cell;
-
-      if(j < 9){
-	cell = rrtable_rows[i].cells[j].innerHTML;
-	row.push(cell);
-      }
-      else{
-	cell = rrtable_rows[i].cells[j].getElementsByTagName("input")[0].value;
-	document.write(cell);
-	row.push(cell);
-	j++;
-
-	cell = rrtable_rows[i].cells[j].innerHTML;
-	row.push(cell);
-	j++;
-
-	cell = rrtable_rows[i].cells[j].innerHTML;
-	row.push(cell);
-      }
-       
+    for(var j=0; j < 9; j++){
+      var cell = rrtable_rows[i].cells[j].innerHTML;
+      row.push(cell);
     }
+
+    var k = 3; // to get breakfast or service type
+    var breakfasts = []; // breakfasts in row
+
+    for(var j=0; j < breakfast_cells; j+=3){
+      var breakfast = [];
+
+      var cell = rrtable_rows[1].cells[k].innerHTML; // btype
+      breakfast.push(cell);
+      k++;
+      
+      cell = rrtable_rows[i].cells[9+j].getElementsByTagName("input")[0].value; // quantity
+      breakfast.push(cell);
+
+      cell = rrtable_rows[i].cells[9+j+1].innerHTML; // price
+      breakfast.push(cell);
+
+      cell = rrtable_rows[i].cells[9+j+2].innerHTML; // total
+      breakfast.push(cell);
+      
+      breakfasts.push(breakfast);
+    }
+    
+    row.push(breakfasts);
+
+    var services = []; // services in row
+
+    for(var j=0; j < service_cells; j+=3){
+      var service = [];
+
+      var cell = rrtable_rows[1].cells[k].innerHTML; // stype
+      k++;
+      service.push(cell);
+
+      cell = rrtable_rows[i].cells[9+breakfast_cells+j].getElementsByTagName("input")[0].value; // quantity
+      service.push(cell);
+
+      cell = rrtable_rows[i].cells[9+breakfast_cells+j+1].innerHTML;      // price
+      service.push(cell);
+
+      cell = rrtable_rows[i].cells[9+breakfast_cells+j+2].innerHTML;      // total
+      service.push(cell);
+      
+      services.push(service);
+    }
+
+    row.push(services);
 
     data.push(row);
   }
