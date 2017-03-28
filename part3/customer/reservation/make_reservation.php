@@ -480,6 +480,11 @@ function reserve_room(){
 }
 
 function finalize_reservation(){
+  // the finalize_reservation function will collect
+  // all of the data from the room reservations table
+  // these are room reservations that includes breakfasts and services
+  // that the customer wants to make
+  // then it will create the reservation
   var date_cells = 2;
   var hotel_cells = 1;
   var room_cells = 6;
@@ -580,10 +585,16 @@ function finalize_reservation(){
   var xhttp = new XMLHttpRequest();
   var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_finalize_reservation.php";
 
+  xhttp.onreadystatechange = function(){
+    if(this.status == 200 && this.readyState == 4){
+      location.reload();
+    } // end of if readyState and status
+  };
+
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);  
-  document.write(xhttp.responseText);
+  //document.write(xhttp.responseText);
 }
 
 function calc_total(){

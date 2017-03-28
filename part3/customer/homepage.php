@@ -27,6 +27,8 @@ echo "Hello " . $_SESSION['name'];
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/make_reservation.php">Make Reservation</a>
 <br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reviews/review.php">Make a Review</a>
+<br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/login/logout.php">Logout</a>
 </body>
 </html>
