@@ -1,9 +1,6 @@
 <?php
-$data_json = file_get_contents('php://input');
-
 $ch = curl_init();
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/back_finalize_reservation.php";
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/back_highest_rated_service_type.php";
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -19,5 +19,7 @@ echo $result;
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/breakfasts.php">Breakfasts</a>
 <br><br>
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/rooms.php">Rooms</a>
+<br><br>
+<a href="http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats.php">Stats</a>
 </body>
 </html>
