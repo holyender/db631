@@ -71,7 +71,7 @@ function compute_highest_rated_room_type_for_each_hotel()
 {
   /*
   var xhttp = new XMLHttpRequest();
-  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_rated_service_type.php";
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_room_type.php";
 
   xhttp.onreadystatechange = function(){
     if(this.status == 200 && this.readyState == 4){
@@ -89,7 +89,7 @@ function compute_highest_rated_room_type_for_each_hotel()
 function compute_five_best_customers(){
   /*
   var xhttp = new XMLHttpRequest();
-  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_rated_service_type.php";
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_best_customers.php";
 
   xhttp.onreadystatechange = function(){
     if(this.status == 200 && this.readyState == 4){
@@ -101,13 +101,13 @@ function compute_five_best_customers(){
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   document.write(xhttp.responseText);  
-  */
+*/
 }
 
 function compute_highest_rated_breakfast_type(){
   /*
   var xhttp = new XMLHttpRequest();
-  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_rated_service_type.php";
+  var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_rated_breakfast_type.php";
 
   xhttp.onreadystatechange = function(){
     if(this.status == 200 && this.readyState == 4){
@@ -119,23 +119,25 @@ function compute_highest_rated_breakfast_type(){
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   document.write(xhttp.responseText);  
-  */
+*/  
 }
 
 function compute_highest_rated_service_type(){
+  /*
   var xhttp = new XMLHttpRequest();
   var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/hulton/stats/middle_highest_rated_service_type.php";
-  /*
+
   xhttp.onreadystatechange = function(){
     if(this.status == 200 && this.readyState == 4){
 
     }
   };
-  */
+
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   document.write(xhttp.responseText);
+  */
 }
 </script>
 </body>
