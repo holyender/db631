@@ -529,16 +529,40 @@ function reserve_room(){
 
       // data format
       // (
-      // hotelid, roomno, checkindate, checkoutdate,
+      // checkindate, checkoutdate, hotelid, roomno,
       // rtype, price, capacity, discount, (breakfasts), (services)
       // )
       // (breakfasts) -> (btype, price, btype, price, ..., btype, price)
       // (services) -> (stype, price, stype, price, ..., stype, price)
+      var our_checkindate = new Date(data[0]);
+      var our_checkoutdate = new Date(data[1]);
+      var our_hotelid = parseInt(data[2]);
+      var our_roomno = parseInt(data[3]);
 
       var rrtable = document.getElementById("room_reservations_table");
       var rrtable_rows = rrtable.getElementsByTagName("tr");
       var count_rrtable_rows = rrtable_rows.length;
-      
+
+      // check if we already have reserved this room in the specific hotel in the table
+      for(var i=3; i < count_rrtable_rows; i++){
+	var checkindate = document.getElementById("room_reservations_table").rows[i].cells[0].innerHTML;
+	checkindate = new Date(checkindate);
+	var checkoutdate = document.getElementById("room_reservations_table").rows[i].cells[1].innerHTML;
+	checkoutdate = new Date(checkoutdate);
+	var hotelid = document.getElementById("room_reservations_table").rows[i].cells[2].innerHTML;
+	var roomno = document.getElementById("room_reservations_table").rows[i].cells[3].innerHTML;
+
+	// if we have already reserved this room in the hotel within the window, the exit function
+	// and return an error messaging stating we have already reserved the room
+	if(hotelid == our_hotelid && roomno == our_roomno && ( (our_checkindate.getTime() >= checkindate.getTime() && our_checkindate.getTime() <= checkoutdate.getTime()) || (our_checkoutdate.getTime() >= checkindate.getTime() && our_checkoutdate.getTime() <= checkoutdate.getTime()) ) ){
+	  document.getElementById("reserve_room_response").innerHTML = "Room already reserved during period.";
+	  return;
+	}
+	else{
+	  document.getElementById("reserve_room_response").innerHTML = "";
+	}
+      }
+
       var row = rrtable.insertRow(count_rrtable_rows);
       // add all of the static cells
       var cell0 = row.insertCell(0); // check in date
