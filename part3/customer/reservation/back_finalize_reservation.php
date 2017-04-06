@@ -10,6 +10,7 @@
   // and for all of the breakfasts and services for that room reservation
 
 $data_json = file_get_contents('php://input');
+//var_dump($data_json);
 $data = json_decode($data_json);
 
 // $data format
@@ -24,7 +25,7 @@ $data = json_decode($data_json);
 // (breakfasts) -> ((breakfast), (breakfast), ..., (breakfast))
 // (breakfast) -> (btype, quantity, bprice, total)
 // (services) -> ((service), (service), ..., (service))
-// (service) -> (stype, quantity, sprice, total)
+// (service) -> (stype, include/null, sprice, total)
 
 include('../../config.php');
 
@@ -33,7 +34,7 @@ $cid = (int)$data[0];
 $credit_card = $data[1];
 $cnumber = (int)$credit_card[0];
 $ctype = mysqli_real_escape_string($conn, $credit_card[1]);
-$baddress = $credit_card[2];
+$baddress = mysqli_real_escape_string($conn, $credit_card[2]);
 $code = (int)$credit_card[3];
 $expdate = mysqli_real_escape_string($conn, $credit_card[4]);
 $name = mysqli_real_escape_string($conn, $credit_card[5]);
@@ -74,14 +75,14 @@ else if(1 <= $count){
   // grab the info for the credit that we have stored
   // so we can compare it with what we put in 
   $card = mysqli_fetch_assoc($result);
-  $card_ctype = $card['Ctype'];
-  $card_baddress = $card['Baddress'];
+  $card_ctype = mysqli_real_escape_string($conn, $card['Ctype']);
+  $card_baddress = mysqli_real_escape_string($conn, $card['Baddress']);
   $card_code = (int)$card['Code'];
-  $card_expdate = $card['ExpDate'];
-  $card_name = $card['Name'];
+  $card_expdate = mysqli_real_escape_string($conn, $card['ExpDate']);
+  $card_name = mysqli_real_escape_string($conn, $card['Name']);
 
   // check if everything matches
-  // if something is different, update it
+  // if something is different, update it the credit card informatio in the database
   if(strcmp($card_ctype, $ctype) != 0){
     $sql = "update CREDIT_CARD set Ctype='$ctype' where CNumber=$cnumber";
     
@@ -133,7 +134,8 @@ else if(1 <= $count){
   }
   
 }
-				     
+
+
 $rdate = date("Y-m-d"); // get the current date
 // create a reservation
 $sql = "insert into RESERVATION (CID, Cnumber, RDate) values ($cid, $cnumber, '$rdate')";
@@ -144,8 +146,8 @@ if(!$result){
   exit;
 }
 
-// figure out what reservation invoice number we just made				     
-$sql = "select MAX(InvoiceNo) as InvoiceNo from RESERVATION where CID=$cid and Cnumber=$cnumber";
+// figure out what reservation invoice number we just made	     
+$sql = "select MAX(InvoiceNo) as InvoiceNo from RESERVATION where CID=$cid and Cnumber=$cnumber and RDate='$rdate'";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -180,6 +182,7 @@ for($i=2; $i < $count_room_reservations; $i++){
     exit;
   }
 
+  // insert all of the rresv_breakfasts
   $breakfasts = $room_reservation[9];
   $count_breakfasts = count($breakfasts);
   for($j=0; $j < $count_breakfasts; $j++){
@@ -189,29 +192,35 @@ for($i=2; $i < $count_room_reservations; $i++){
     $btype = mysqli_real_escape_string($conn, $breakfast[0]);
     $quantity = (int)$breakfast[1];
 
-    $sql = "insert into RRESV_BREAKFAST (Btype, HotelID, RoomNo, CheckInDate, NoofOrders) values ('$btype', $hotelid, $roomno, '$checkindate', $quantity)";
+    if($quantity > 0){
+      $sql = "insert into RRESV_BREAKFAST (Btype, HotelID, RoomNo, CheckInDate, NoofOrders) values ('$btype', $hotelid, $roomno, '$checkindate', $quantity)";
 
-    $result = mysqli_query($conn, $sql);
-    if(!$result){
-      echo "query error: " . mysqli_error($conn);
-      exit;
+      $result = mysqli_query($conn, $sql);
+      if(!$result){
+	echo "query error: " . mysqli_error($conn);
+	exit;
+      }
     }
   } // end of for j count_breakfasts
 
+  // insert all of the rresv_services
   $services = $room_reservation[10];
   $count_services = count($services);
   for($j=0; $j < $count_services; $j++){
     // (services) -> ((service), (service), ..., (service))
-    // (service) -> (stype, quantity, sprice, total)
+    // (service) -> (stype, include/null, sprice, total)
     $service = $services[$j];
     $stype = mysqli_real_escape_string($conn, $service[0]);
+    $request = $service[1]; // whether the customer wants this service or not. true means they do. false means they don't
+
+    if($request){
+      $sql = "insert into RRESV_SERVICE (Stype, HotelID, RoomNo, CheckInDate) values ('$stype', $hotelid, $roomno, '$checkindate')";
     
-    $sql = "insert into RRESV_SERVICE (Stype, HotelID, RoomNo, CheckInDate) values ('$stype', $hotelid, $roomno, '$checkindate')";
-    
-    $result = mysqli_query($conn, $sql);
-    if(!$result){
-      echo "query error: " . mysqli_error($conn);
-      exit;
+      $result = mysqli_query($conn, $sql);
+      if(!$result){
+	echo "query error: " . mysqli_error($conn);
+	exit;
+      }
     }
   } // end of for j count_services
 

@@ -311,6 +311,8 @@ for(var i=0; i < count_services; i++){
 <br><br>
 Grand Total: <span id="grand_total"></span>
 <br><br>
+<span id="credit_card_response"></span>
+<br>
 <input type="button" onclick="finalize_reservation()" value="Finalize">
 </form>
 <br>
@@ -632,6 +634,9 @@ function reserve_room(){
 
       calc_total(); // after adding a new room to the list, calculate how much everything is going to cost
 
+      // reset the form so a customer can enter in a new room to reserve
+      document.getElementById("reserve_room_form").reset();
+
     } // end of if this.status and this.readyState
   };
       
@@ -676,8 +681,9 @@ function finalize_reservation(){
   // the finalize_reservation function will collect
   // all of the data from the room reservations table
   // these are room reservations that includes breakfasts and services
-  // that the customer wants to make
-  // then it will create the reservation
+  // that the customer wants to reserve
+  // this function will package all of this information together
+  // and send it to the back end to store in the database
   var breakfast_cells = document.getElementById("breakfast_th").colSpan;
   var service_cells = document.getElementById("service_th").colSpan;
 
@@ -685,9 +691,9 @@ function finalize_reservation(){
   var rrtable_rows = rrtable.getElementsByTagName("tr");
   var count_rrtable_rows = rrtable_rows.length;
   
-  var data = [];
+  var data = []; // the reservation data
 
-  // get cid
+  // get cid of the customer who wants to make the reservation
   var cid = "<?php echo $_SESSION['cid']; ?>";
   data.push(cid);
 
@@ -699,6 +705,16 @@ function finalize_reservation(){
   var expdate = document.getElementById("expdate").value;
   var name = document.getElementById("name").value;
 
+  // if the customer did not include all of the credit card information
+  // exit the function and return an error message
+  if(!cnumber || !ctype || !baddress || !code || !expdate || !name){
+    document.getElementById("credit_card_response").innerHTML = "Provide all information.";
+    return;
+  }
+  else{
+    document.getElementById("credit_card_response").innerHTML = "";
+  }
+
   var credit_card = [];
   credit_card.push(cnumber);
   credit_card.push(ctype);
@@ -708,18 +724,23 @@ function finalize_reservation(){
   credit_card.push(name);
 
   data.push(credit_card);
+  // data format
+  // (cid, (cnumber, ctype, baddress, code, expdate, name))
 
+  // get all of the information from the table for all reservations
   for(var i=3; i < count_rrtable_rows; i++){
     var row = []; // a table row
 
+    // get all of the information before the breakfasts for the row
     for(var j=0; j < 9; j++){
       var cell = rrtable_rows[i].cells[j].innerHTML;
       row.push(cell);
-    }
+    } 
 
     var k = 3; // to get breakfast or service type
     var breakfasts = []; // breakfasts in row
 
+    // get the breakfast information for the row
     for(var j=0; j < breakfast_cells; j+=3){
       var breakfast = [];
 
@@ -743,6 +764,7 @@ function finalize_reservation(){
 
     var services = []; // services in row
 
+    // get all of the service information for the row
     for(var j=0; j < service_cells; j+=3){
       var service = [];
 
@@ -750,7 +772,7 @@ function finalize_reservation(){
       k++;
       service.push(cell);
 
-      cell = rrtable_rows[i].cells[9+breakfast_cells+j].getElementsByTagName("input")[0].value; // quantity
+      cell = rrtable_rows[i].cells[9+breakfast_cells+j].getElementsByTagName("input")[0].checked; // include
       service.push(cell);
 
       cell = rrtable_rows[i].cells[9+breakfast_cells+j+1].innerHTML;      // price
@@ -767,21 +789,36 @@ function finalize_reservation(){
     data.push(row);
   }
 
+  // data format
+  // ( cid, (credit card info),
+  // (room reservation info, (breakfasts), (services)),
+  // (room reservation info, (breakfasts), (services)),
+  // ...,
+  // (room reservation info, (breakfasts), (services))
+  // )
+  // (credit card info) -> (cnumber, ctype, baddress, code, expdate, name)
+  // room reservation -> (checkindate, checkoutdate, hotelid, roomno, rtype, price, capacity, discount, room total)
+  // (breakfasts) -> ((breakfast), (breakfast), ..., (breakfast))
+  // (services) -> ((service), (service), ..., (service))
+  // (breakfast) -> (btype, no_of_orders, bprice, breakfast total)
+  // (service) -> (stype, request/null, price, service total)
+
   var data_json = JSON.stringify(data);
   
   var xhttp = new XMLHttpRequest();
   var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reservation/middle_finalize_reservation.php";
-
+  
   xhttp.onreadystatechange = function(){
     if(this.status == 200 && this.readyState == 4){
       location.reload();
     } // end of if readyState and status
   };
-
+  
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);  
-  //document.write(xhttp.responseText);
+  //  document.write(xhttp.responseText);
+  
 }
 
 function calc_total(){
