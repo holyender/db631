@@ -8,12 +8,14 @@
   // e.g. ("info" => "breakfasts")
 
 $data_json = file_get_contents('php://input');
+// var_dump($data_json);
 $data = json_decode($data_json, true);
 
 $request = $data['info'];
 
 include('../../config.php');
 
+// we requested for all of the distinct breakfast types
 if(strcmp($request, "breakfasts") == 0){
   $sql = "select distinct BType from BREAKFAST order by BType asc";
 
@@ -34,6 +36,7 @@ if(strcmp($request, "breakfasts") == 0){
   $data_json = json_encode($data);
   echo $data_json;
 }
+// we requested for all of the distinct service types
 else if(strcmp($request, "services") == 0){
   $sql = "select distinct SType from SERVICE order by SType asc";
 
@@ -54,4 +57,5 @@ else if(strcmp($request, "services") == 0){
   $data_json = json_encode($data);
   echo $data_json;
 }
+
 ?>

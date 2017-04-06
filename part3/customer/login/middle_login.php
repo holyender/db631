@@ -1,4 +1,6 @@
 <?php
+  // get the information submitted by the login form
+  // and send it to the back end to check if we are a valid user
 $email = $_POST['email'];
 $cid = $_POST['cid'];
 
@@ -17,6 +19,8 @@ $result = curl_exec($ch);
 $response = json_decode($result, true);
 
 if(strcmp($response['response'], "ack") == 0){
+  // if the back end says that the customer is a valid user
+  // then store their information and send us to the homepage
   session_start();
   $_SESSION['email'] = $email;
   $_SESSION['name'] = $response['name'];

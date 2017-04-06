@@ -9,15 +9,17 @@
   // the second consisiting of the services for the hotel with its prices
 
 $data_json = file_get_contents('php://input');
+//var_dump($data_json);
 $data = json_decode($data_json, true);
 
 include('../../config.php');
 
 $hotelid = (int)$data['hotelid'];
 $roomno = (int)$data['roomno'];
-$checkindate = $data['checkindate'];
+$checkindate = mysqli_real_escape_string($conn, $data['checkindate']);
+$checkoutdate = mysqli_real_escape_string($conn, $data['checkoutdate']);
 
-// get the room information
+// get the room information 
 $sql = "select Rtype, Price, Capacity from ROOM where HotelID=$hotelid and RoomNo=$roomno";
 
 $result = mysqli_query($conn, $sql);
@@ -26,12 +28,16 @@ if(!$result){
   exit;
 }
 
-$row = mysqli_fetch_assoc($result);
-array_push($data, $row['Rtype']);
-array_push($data, $row['Price']);
-array_push($data, $row['Capacity']);
+$data = array();
 
-// find the discount information
+array_push($data, $checkindate, $checkoutdate, $hotelid, $roomno);
+
+$room = mysqli_fetch_row($result);
+for($i=0; $i < count($room); $i++){
+  array_push($data, $room[$i]);
+}
+
+// get the discount for the room
 $sql = "select Discount from DISCOUNTED_ROOM where HotelID=$hotelid and RoomNo=$roomno and StartDate <= '$checkindate' and EndDate >= '$checkindate'";
 
 $result = mysqli_query($conn, $sql);
@@ -40,91 +46,91 @@ if(!$result){
   exit;
 }
 
-$row = mysqli_fetch_assoc($result);
-$discount = $row['Discount'];
-array_push($data, $discount);
+$discount = mysqli_fetch_row($result);
+array_push($data, $discount[0]);
 
-$request = array("info" => "breakfasts");
-$request_json = json_encode($request);
+// find out which breakfasts are offered at that hotel
+// and how much each costs
 
-$ch = curl_init();
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/back_get_breakfasts_services.php";
-curl_setopt($ch, CURLOPT_POSTFIELDS, $request_json);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$breakfasts_json = curl_exec($ch);
+$sql = "select distinct BType from BREAKFAST order by BType asc";
 
-curl_close($ch);
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 
-$data_breakfasts = array();
+$breakfasts = array();
 
-$breakfasts = json_decode($breakfasts_json);
-$count_breakfasts = count($breakfasts);
-
-// find the price for each breakfast for a room in a hotel
-// if the hotel doesn't have that kind of breakfast, the price will be null
+$count_breakfasts = mysqli_num_rows($result);
 for($i=0; $i < $count_breakfasts; $i++){
-  $btype = $breakfasts[$i];
-  array_push($data_breakfasts, $btype);
+  $breakfast = array();
+
+  $row = mysqli_fetch_row($result);
+  $btype = mysqli_real_escape_string($conn, $row[0]);
 
   $sql = "select BPrice from BREAKFAST where HotelID=$hotelid and BType='$btype'";
 
-  $result = mysqli_query($conn, $sql);
-  if(!$result){
+  $breakfast_result = mysqli_query($conn, $sql);
+  if(!$breakfast_result){
     echo "query error: " . mysqli_error($conn);
     exit;
   }
 
-  $row = mysqli_fetch_row($result);
-  $price = $row[0];
-  array_push($data_breakfasts, $price);
+  $breakfast_row = mysqli_fetch_row($breakfast_result);
+  $bprice = $breakfast_row[0];
   
+  array_push($breakfast, $btype, $bprice);
+  array_push($breakfasts, $breakfast);
+
 }
-array_push($data, $data_breakfasts);
 
-// find all of the services
-$request = array("info" => "services");
-$request_json = json_encode($request);
+array_push($data, $breakfasts);
 
-$ch = curl_init();
-$url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/info/back_get_breakfasts_services.php";
-curl_setopt($ch, CURLOPT_POSTFIELDS, $request_json);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$services_json = curl_exec($ch);
+// figure out which services are offered at that hotel
+// and how much each costs
+$sql = "select distinct SType from SERVICE order by SType asc";
 
-curl_close($ch);
+$result = mysqli_query($conn, $sql);
+if(!$result){
+  echo "query error: " . mysqli_error($conn);
+  exit;
+}
 
-$services = json_decode($services_json);
-$data_services = array();
+$services = array();
 
-// find the price for each service for a room in a hotel
-// if the hotel doesn't have that kind of service, the price will be null
-$count_services = count($services);
+$count_services = mysqli_num_rows($result);
 for($i=0; $i < $count_services; $i++){
-  $stype = $services[$i];
-  array_push($data_services, $stype);
+  $service = array();
 
-  $sql = "select SPrice from SERVICE where HotelID=$hotelid and SType='$stype'";
+  $row = mysqli_fetch_row($result);
+  $stype = mysqli_real_escape_string($conn, $row[0]);
 
-  $result = mysqli_query($conn, $sql);
-  if(!$result){
+  $sql = "select SPrice from SERVICE where SType='$stype' and HotelID=$hotelid";
+
+  $service_result = mysqli_query($conn, $sql);
+  if(!$service_result){
     echo "query error: " . mysqli_error($conn);
     exit;
-  }  
+  }
 
-  $row = mysqli_fetch_row($result);
-  $price = $row[0];
-  array_push($data_services, $price);
+  $service_row = mysqli_fetch_row($service_result);
+  $sprice = $service_row[0];
+
+  array_push($service, $stype, $sprice);
+  array_push($services, $service);
 }
 
-array_push($data, $data_services);
+array_push($data, $services);
+
+// $data format
+// ( hotelid, roomno, checkindate, checkoutdate,
+// rtype, price, capacity, discount, (breakfasts), (services)
+// )
 
 $data_json = json_encode($data);
 echo $data_json;
+
+mysqli_close($conn)
 
 ?>

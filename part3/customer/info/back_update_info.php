@@ -1,4 +1,7 @@
 <?php
+  // this file is ment to update the customer's information
+  // if any of the fields are empty, the information will not be updated
+  // only nonempty information will be updated
 $data_json = file_get_contents('php://input');
 $data = json_decode($data_json, true);
 
