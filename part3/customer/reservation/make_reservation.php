@@ -309,6 +309,8 @@ for(var i=0; i < count_services; i++){
 <br>
 <input type="text" id="name" placeholder="Name">
 <br><br>
+Grand Total: <span id="grand_total"></span>
+<br><br>
 <input type="button" onclick="finalize_reservation()" value="Finalize">
 </form>
 <br>
@@ -604,6 +606,8 @@ function reserve_room(){
 	count_cell += 3;
       }
 
+      calc_total(); // after adding a new room to the list, calculate how much everything is going to cost
+
     } // end of if this.status and this.readyState
   };
       
@@ -650,14 +654,8 @@ function finalize_reservation(){
   // these are room reservations that includes breakfasts and services
   // that the customer wants to make
   // then it will create the reservation
-  var date_cells = 2;
-  var hotel_cells = 1;
-  var room_cells = 6;
   var breakfast_cells = document.getElementById("breakfast_th").colSpan;
   var service_cells = document.getElementById("service_th").colSpan;
-
-  // number of cells needed to be collected
-  var cells = date_cells + hotel_cells + room_cells + breakfast_cells + service_cells;
 
   var rrtable = document.getElementById("room_reservations_table");
   var rrtable_rows = rrtable.getElementsByTagName("tr");
@@ -769,7 +767,14 @@ function calc_total(){
   var count_breakfasts = document.getElementById("breakfast_th").colSpan;
   var count_services = document.getElementById("service_th").colSpan;
 
+  var grand_total = 0;
+
   for(var i=3; i < count_rrtable_rows; i++){
+    // calculate the totals for the rooms
+    var room_total = document.getElementById("room_reservations_table").rows[i].cells[8].innerHTML;
+    room_total = parseFloat(room_total);
+
+    grand_total += room_total;
 
     // calculate totals for breakfasts
     for(var j=0; j < count_breakfasts; j+=3){
@@ -779,7 +784,9 @@ function calc_total(){
 
       rrtable.rows[i].cells[9+j+2].innerHTML = total;
 
-    }
+      grand_total += parseFloat(total);
+
+    } // end of for j < count_breakfasts
 
     // calculate totals for services
     for(var k=0; k < count_services; k+=3){
@@ -794,9 +801,13 @@ function calc_total(){
       }
 
       rrtable.rows[i].cells[9+count_breakfasts+k+2].innerHTML = total;
-    }
 
-  }
+      grand_total += parseFloat(total);
+    } // end of k < count_services
+
+  } // end of i < rooms
+
+  document.getElementById("grand_total").innerHTML = "$".concat(grand_total.toFixed(2));
 
 }
 </script>
