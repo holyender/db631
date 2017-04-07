@@ -483,29 +483,40 @@ function search_rooms(){
 }
 
 function reserve_room(){
-  /*
-    the reserve_room function will collect all of the information
-    that the customer provided in the reserve room form.
-    if some of the information is missing, then a error response will appear.
-    only when all of the reservation information is provided will the data be 
-    sent to the back end for processing. the back end should return information
-    about a specific room in a specifc hotel, such as how many people can stay
-    in that room and which breakfasts and services are offered for that room in that hotel.
-   */
+  // the reserve_room function will collect all of the information
+  // that the customer provided in the reserve room form.
+  // if some of the information is missing, then a error response will appear.
+  // only when all of the reservation information is provided will the data be 
+  // sent to the back end for processing. the back end should return information
+  // about a specific room in a specifc hotel, such as how many people can stay
+  // in that room and which breakfasts and services are offered for that room in that hotel.
+   
   var hotelid = document.getElementById("resv_hotelid").value;
   var roomno = document.getElementById("resv_roomno").value;
   var checkindate = document.getElementById("resv_checkindate").value;
   var checkoutdate = document.getElementById("resv_checkoutdate").value;
 
-  /* if all of the information is not provided, return an error message */
+  // if all of the information is not provided, return an error message
   if(!hotelid || !roomno || !checkindate || !checkoutdate){
     document.getElementById("reserve_room_response").innerHTML = "Provide all information.";
     return;
   }
-  /* if an error message was just returned, and now the customer has provided all the information,
-   refresh the error message section */
+  // if an error message was just returned, and now the customer has provided all the information,
+  // refresh the error message section
   else{
     document.getElementById("reserve_room_response").innerHTML = "";
+  }
+
+  // make sure that the check in date data that the customer is specifying is before the check out date
+  var checkin = new Date(checkindate);
+  var checkout = new Date(checkoutdate);
+
+  if(checkin.getTime() > checkout.getTime()){
+    document.getElementById("reserve_room_response").innerHTML = "Check in date must be before check out date.";
+    return;
+  }
+  else{
+        document.getElementById("reserve_room_response").innerHTML = "";
   }
 
   var data = {"hotelid":hotelid, "roomno":roomno, "checkindate":checkindate, "checkoutdate":checkoutdate};
