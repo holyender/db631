@@ -1,5 +1,11 @@
 <!DOCTYPE HTML>
 <html>
+<!-- this page is ment for a customer to make reviews for rooms, services, and breakfasts
+that the customer has reserved in the past. a customer will not be able to make duplicate
+reviews for the same service, meaning that if a customer reserved french breakfasts in hotel 1
+one time, then that customer should be only able to review the breakfast in that hotel 1 time.
+if a customer reserved a type of breakfast in a hotel 2 times, then that customer should only 
+be able to review that breakfast 2 times. -->
 <head>
 <style>
 table, th, td{
@@ -47,12 +53,13 @@ echo "<tr>";
 echo "<th></th>"; // for checkbox
 echo "<th>HotelID</th>";
 echo "<th>RoomNo</th>";
-echo "<th>Rating</th>"; // point rating for room
+echo "<th>Rating</th>"; // point rating for room 1-10
 echo "<th>Text</th>"; // customer's input for review
 echo "</tr>";
 echo "</thead>";
 
 echo "<tbody>";
+
 $count_room_reviews = count($room_reviews);
 for($i=0; $i < $count_room_reviews; $i++){
   echo "<tr>";
@@ -69,6 +76,7 @@ for($i=0; $i < $count_room_reviews; $i++){
 
   echo "</tr>";
 }
+
 echo "</tbody>";
 
 echo "</table>";
@@ -199,6 +207,11 @@ echo "</div>";
 <a href="http://afsaccess1.njit.edu/~jjl37/database/part3/customer/homepage.php">Homepage</a>
 <script>
 function room_review(){
+  // the room_review function will allow a customer to submit reviews for
+  // rooms that the customer has reserved. the function will figure out which
+  // reviews the customer wants to submit by checking which checkboxes are clicked in the table
+  // for a checkbox that is clicked, the function will collect the data from that row and then
+  // package all of the information and send it to the back end to be stored in the database
   var count_rows = document.getElementById("room_review_table").rows.length;
   // figure out which rooms we want to review by the check marks
   var checks = [];
@@ -208,9 +221,13 @@ function room_review(){
   }
 
   var data = [];
-  var cid = "<?php echo $_SESSION['cid']; ?>";
+  var cid = "<?php echo $_SESSION['cid']; ?>"; // the customer making the review
   data.push(cid);
 
+  // data format
+  // (cid)
+
+  // collect the information from the corresponding row for the boxes that are checked
   for(var i=1; i < count_rows; i++){
     var check = checks[i-1];
     if(check){

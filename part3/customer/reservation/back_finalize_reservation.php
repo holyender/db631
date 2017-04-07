@@ -135,6 +135,9 @@ else if(1 <= $count){
   
 }
 
+// start a transaction for account for multiple users trying to make the same reservation
+mysqli_begin_transaction($conn, MYSQLI_TRANS_START_READ_WRITE);
+
 
 $rdate = date("Y-m-d"); // get the current date
 // create a reservation
@@ -225,5 +228,10 @@ for($i=2; $i < $count_room_reservations; $i++){
   } // end of for j count_services
 
 } // end of for i count_room_reservations
+
+// end the transaction
+mysqli_commit($conn);
+
+mysqli_close($conn);
 
 ?>
