@@ -181,6 +181,7 @@ echo "</tr>";
 echo "</thead>";
 
 echo "<tbody>";
+
 $count_services = count($data);
 for($i=0; $i < $count_services; $i++){
   $service = $data[$i];
@@ -195,6 +196,7 @@ for($i=0; $i < $count_services; $i++){
   echo "<td><textarea></textarea></td>";
   echo "</tr>";
 }
+
 echo "</tbody>";
 echo "</table>";
 echo "<br><br>";
@@ -248,13 +250,13 @@ function room_review(){
   
   var xhttp = new XMLHttpRequest();
   var url = "http://afsaccess1.njit.edu/~jjl37/database/part3/customer/reviews/middle_submit_room_review.php";
-
+  
   xhttp.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
       location.reload();
     }
   };
-
+  
   xhttp.open("POST", url, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(data_json);

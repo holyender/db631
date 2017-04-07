@@ -14,13 +14,13 @@ $data = json_decode($data_json);
 include('../../config.php');
 
 $count_room_reviews = count($data); // remeber to exclude the cid
-$cid = $data[0];
+$cid = (int)$data[0];
 for($i=1; $i < $count_room_reviews; $i++){
   $room_review = $data[$i];
   $hotelid = (int)$room_review[0];
   $roomno = (int)$room_review[1];
   $rating = (int)$room_review[2];
-  $text = $room_review[3];
+  $text = mysqli_real_escape_string($conn, $room_review[3]);
 
   $sql = "insert into ROOM_REVIEW (Rating, Text, CID, HotelID, RoomNo) values ($rating, '$text', $cid, $hotelid, $roomno)";
   

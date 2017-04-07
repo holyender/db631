@@ -58,7 +58,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists ROOM_REVIEW (RID int not null, Rating int default null check(rating between 0 and 10), Text text, CID int default null, HotelID int not null, RoomNo int not null, constraint room_review_pk primary key(RID), constraint room_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade, constraint room_review_room_fk foreign key(HotelID, RoomNo) references ROOM(HotelID, RoomNo) on delete cascade on update cascade)";
+$sql = "create table if not exists ROOM_REVIEW (RID int not null auto_increment, Rating int default null check(rating between 0 and 10), Text text, CID int default null, HotelID int not null, RoomNo int not null, constraint room_review_pk primary key(RID), constraint room_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade, constraint room_review_room_fk foreign key(HotelID, RoomNo) references ROOM(HotelID, RoomNo) on delete cascade on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -66,7 +66,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists BREAKFAST_REVIEW (RID int not null, HotelID int not null, BType varchar(16) not null, CID int default null, Text text, Rating int default null check(Rating between 0 and 5), constraint breakfast_review_pk primary key(RID), constraint breakfast_review_breakfast_fk foreign key(HotelID, BType) references BREAKFAST(HotelID, BType) on delete cascade on update cascade, constraint breakfast_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade)";
+$sql = "create table if not exists BREAKFAST_REVIEW (RID int not null auto_increment, HotelID int not null, BType varchar(16) not null, CID int default null, Text text, Rating int default null check(Rating between 0 and 5), constraint breakfast_review_pk primary key(RID), constraint breakfast_review_breakfast_fk foreign key(HotelID, BType) references BREAKFAST(HotelID, BType) on delete cascade on update cascade, constraint breakfast_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
@@ -74,7 +74,7 @@ if(!$result){
   exit;
 }
 
-$sql = "create table if not exists SERVICE_REVIEW (RID int not null, HotelID int not null, SType varchar(16) not null, CID int default null, Rating int default null check(Rating between 0 and 5), Text text, constraint service_review_pk primary key(RID), constraint service_review_service_fk foreign key(HotelID, SType) references SERVICE(HotelID, SType) on delete cascade on update cascade, constraint service_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade)";
+$sql = "create table if not exists SERVICE_REVIEW (RID int not null auto_increment, HotelID int not null, SType varchar(16) not null, CID int default null, Rating int default null check(Rating between 0 and 5), Text text, constraint service_review_pk primary key(RID), constraint service_review_service_fk foreign key(HotelID, SType) references SERVICE(HotelID, SType) on delete cascade on update cascade, constraint service_review_customer_fk foreign key(CID) references CUSTOMER(CID) on delete set null on update cascade)";
 
 $result = mysqli_query($conn, $sql);
 if(!$result){
